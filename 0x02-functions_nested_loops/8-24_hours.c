@@ -1,8 +1,9 @@
-#include "holberton.h"
+#include "main.h"
 
 /**
+ * Hey hey this is one of my favorite movies you gotta watch it now 
  * jack_bauer - prints every minute of the day of Jack Bauer
- *
+ * 
  * Return: Always 0.
  */
 
