@@ -7,13 +7,15 @@
  */
 int main(void)
 {
-  char str[]= "Holberton/n";
-  int i;
+	char str[] = "Holberton";
 
-  for (i=0; i<11; i++)
-    {
-      _putchar(str[i];
-	       i++;}
-	
+	int i;
+
+	for (i = 0; i <= str[i]; i++)
+	{
+		_putchar(str[i]);
+	}
+	_putchar('\n');
+
 	return (0);
 }
