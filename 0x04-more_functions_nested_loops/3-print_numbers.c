@@ -1,19 +1,20 @@
-/*
- * File: 3-print_numbers.c
- * 
- */
-
 #include "main.h"
 
 /**
- * print_numbers - Prints the numbers from 0-9.
+ * print_numbers - Entry point
+ *
+ * Return: Always 0 (Success)
  */
+
 void print_numbers(void)
 {
-	int num;
+int a = 0;
 
-	for (num = 0; num <= 9; num++)
-		_putchar((num % 10) + '0');
-
-	_putchar('\n');
+while (a < 10)
+{
+_putchar(a + '0');
+a++;
 }
+_putchar('\n');
+}
+© 2021 GitHub, Inc.
