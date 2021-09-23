@@ -1,52 +1,137 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdlib.h>
+/**
+  * int_calloc - special calloc but 4 int arrays
+  * @nmemb: n memb
+  * @size: size of array
+  * Return: int *
+  */
+int *int_calloc(int nmemb, unsigned int size)
+{
+	/* declarations */
+	int *p, n;
+	/* checking inputs */
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+	/* malloc the space & check for fail */
+	p = malloc(nmemb * size);
+	if (p == NULL)
+		return (NULL);
+	/* calloc */
+	for (n = 0; n < nmemb; n++)
+		p[n] = 0;
+	return (p);
+}
 
 /**
-  * string_nconcat - ...
-  * @s1: ...
-  * @s2: ...
-  * @n: ...
-  *
-  * Return: ...
+  * mul - multiplication
+  * @mul: int * 4 answer
+  * @num1: string num1
+  * @num2: string num2
+  * @len1: len num1
+  * @len2: len num2
+  * Return: void
   */
-char *string_nconcat(char *s1, char *s2, unsigned int n)
+void mul(int *mul, char *num1, char *num2, int len1, int len2)
 {
-	unsigned int i = 0, j = 0, k = 0, l = 0;
-	char *str;
-
-	if (s1 == NULL)
-		s1 = "";
-	if (s2 == NULL)
-		s2 = "";
-
-	while (s1[i])
-		i++;
-
-	while (s2[k])
-		k++;
-
-	if (n >= k)
-		l = i + k;
-	else
-		l = i + n;
-
-	str = malloc(sizeof(char) * l + 1);
-	if (str == NULL)
-		return (NULL);
-
-	k = 0;
-	while (j < l)
+	/* declarations */
+	int i;
+	int j;
+	int f1, f2;
+	int sum;
+	/* the long math */
+	for (i = len1 - 1; i >= 0; i--)
 	{
-		if (j <= i)
-			str[j] = s1[j];
-
-		if (j >= i)
+		sum = 0;
+		f1 = num1[i] - '0';
+		for (j = len2 - 1; j >= 0; j--)
 		{
-			str[j] = s2[k];
-			k++;
+			f2 = num2[j] - '0';
+			sum += mul[i + j + 1] + (f1 * f2);
+			mul[i + j + 1] = sum % 10;
+			sum /= 10;
 		}
-		j++;
+		if (sum > 0)
+			mul[i + j + 1] += sum;
 	}
-	str[j] = '\0';
-	return (str);
+	for (i = 0; mul[i] == 0 && i < len1 + len2; i++)
+	{}
+	if (i == len1 + len2)
+		_putchar('0');
+	for (; i < len1 + len2; i++)
+		_putchar(mul[i] + '0');
+	_putchar('\n');
+}
+
+/**
+  * is_valid - is the number a valid one
+  * @num : char string num
+  * Return: int, 1 if true 0 if false
+  */
+int is_valid(char *num)
+{
+	/* declarations */
+	int i;
+	/* checking for ints */
+	for (i = 0; num[i]; i++)
+	{
+		if (num[i] < '0' || num[i] > '9')
+			return (0);
+	}
+	return (1);
+}
+/**
+  * err - errors r us
+  * @status: error code 4 exit
+  * Return: void
+  */
+void err(int status)
+{
+	_putchar('E');
+	_putchar('r');
+	_putchar('r');
+	_putchar('o');
+	_putchar('r');
+	_putchar('\n');
+	exit(status);
+}
+/**
+  * main - getting the args
+  * @argc: args #
+  * @argv: arg array
+  * Return: 0
+  */
+int main(int argc, char **argv)
+{
+	/* declarations */
+	int i, j, len1 = 0, len2 = 0;
+	int *res;
+	/* too many args? too few? */
+	if (argc != 3)
+	{
+		err(98);
+	}
+	/* using isvalid */
+	for (i = 1; i < argc; i++)
+	{
+		if (!(is_valid(argv[i])))
+			err(98);
+		if (i == 1)
+		{
+			for (j = 0; argv[i][j]; j++)
+				len1++;
+		}
+		if (i == 2)
+		{
+			for (j = 0; argv[i][j]; j++)
+				len2++;
+		}
+	}
+	res = int_calloc(len1 + len2, sizeof(int));
+	if (res == NULL)
+		err(98);
+	mul(res, argv[1], argv[2], len1, len2);
+	free(res);
+	return (0);
 }
